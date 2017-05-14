@@ -8,8 +8,8 @@
          </tr>
        </thead>
        <tbody>
-         <tr *ngFor="let circuit of response.circuits">
-           <td>{{ circuit.id }}</td>
+         <tr *ngFor="let circuit of response.circuits; let i = index">
+           <td>{{ i + 1 }}</td>
            <td>{{ circuit.address }}</td>
            <td *ngFor="let v of circuit.votes">{{ v }}</td>
          </tr>

@@ -7,6 +7,10 @@ body {
     font-size: 14px;
 }
 
+#top_header > h1:first-letter {
+  text-transform:capitalize;
+}
+
 #top_header {
     padding: 0;
     box-sizing: border-box;

@@ -24,6 +24,7 @@ export class Circuit {
 }
 
 export class ResultsResponse {
+  name: string;
   people: Person[];
 }
 

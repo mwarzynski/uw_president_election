@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ResultsService } from '../_services/index';
-import { ResultsResponse } from '../_models/index';
+import { ResultsResponse, Views } from '../_models/index';
 import { ElectionsComponent } from './elections.component';
+import { AppComponent } from '../app.component';
+import {viewToString} from '../_models/views';
 
 @Component({
   selector: 'results',
@@ -23,11 +25,23 @@ export class ResultsComponent implements OnInit {
     return '';
   }
 
-  constructor(private elections: ElectionsComponent, private resultsService: ResultsService) { }
+  constructor(
+    private appComponent: AppComponent,
+    private elections: ElectionsComponent,
+    private resultsService: ResultsService) { }
 
   saveResponse(response: ResultsResponse) {
     localStorage.setItem('results', JSON.stringify(response));
     this.response = response;
+    this.setTitle();
+  }
+
+  setTitle() {
+    if (this.elections.viewType !== Views.COUNTRY) {
+      this.appComponent.title = this.response.name;
+    } else {
+      this.appComponent.title = 'Wybory prezydenckie 2000';
+    }
   }
 
   ngOnInit() {
@@ -35,7 +49,7 @@ export class ResultsComponent implements OnInit {
       .then((response: ResultsResponse) => {
         this.saveResponse(response);
       }).catch((err: Error | any) => {
-      console.log(err);
+      console.error('Getting result error:', err);
     });
   }
 }
