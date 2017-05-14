@@ -1,0 +1,18 @@
+<section id="circuits">
+   <table>
+       <thead>
+         <tr>
+           <th>Lp</th>
+           <th>Nazwa</th>
+           <th *ngFor="let candidate of response.candidates">{{ candidate }}</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr *ngFor="let circuit of response.circuits">
+           <td>{{ circuit.id }}</td>
+           <td>{{ circuit.address }}</td>
+           <td *ngFor="let v of circuit.votes">{{ v }}</td>
+         </tr>
+     </tbody>
+   </table>
+</section>

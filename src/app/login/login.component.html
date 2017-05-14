@@ -1,0 +1,20 @@
+<link rel="stylesheet" href="../../css/login.css">
+
+<div class="container">
+  <form class="form-signin" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+      <input id="username" type="text" class="form-control" name="username" placeholder="Użytkownik" [(ngModel)]="model.username" #username="ngModel" required />
+    </div>
+
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+      <input id="password" type="password" class="form-control" name="password" placeholder="Hasło" [(ngModel)]="model.password" #password="ngModel" required />
+    </div>
+
+    <div class="form-group">
+      <button [disabled]="loading" class="btn btn-primary">Zaloguj się</button>
+    </div>
+  </form>
+</div>

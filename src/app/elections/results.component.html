@@ -1,0 +1,28 @@
+<section class="results">
+
+  <table>
+    <thead>
+    <tr>
+      <th>Lp</th>
+      <th>Imię i nazwisko</th>
+      <th>Głosów</th>
+      <th>Wynik wyborczy</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    <tr *ngFor="let person of response.people; let i = index">
+      <td>{{ i+1 }}</td>
+      <td>{{ person.name }}</td>
+      <td>{{ person.votes.toLocaleString() }}</td>
+      <td>
+        <div class="results-bar">
+          <div [ngStyle]="{'width.%': person.percentage}" [ngClass]="colorClass(i)"></div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</section>
