@@ -1,0 +1,23 @@
+<section class="center container">
+
+  <h2 *ngIf="response !== null">Wszystkich kart: {{response.all_votes}}.</h2>
+  <br>
+
+  <form class="form-group" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+    <div *ngIf="submitted && !error" class="alert alert-success">Pomyślnie zapisano dane.</div>
+
+    <div class="form-group row" [ngClass]="{ 'has-error': f.submitted && error.length > 0 }" *ngFor="let result of response.results; let i = index;">
+      <label for="result_{{ result.id }}" class="col-7 col-form-label">{{ result.candidate }}</label>
+      <div class="col-5">
+        <input id="result_{{ result.id }}" type="number" min="0" class="form-control" name="{{ result.id }}" [(ngModel)]="response.results[i].votes" required />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button [disabled]="loading" class="btn btn-primary">Zapisz</button>
+    </div>
+  </form>
+
+</section>

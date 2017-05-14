@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CircuitsService } from '../_services/index';
+import { CircuitsService, AuthenticationService } from '../_services/index';
 import { CircuitsResponse } from '../_models/index';
 import { ElectionsComponent } from './elections.component';
 
@@ -12,11 +12,18 @@ import { ElectionsComponent } from './elections.component';
 
 export class CircuitComponent implements OnInit {
 
+  isLogged: boolean = false;
+
   response: CircuitsResponse = new CircuitsResponse();
 
-  constructor(private elections: ElectionsComponent, private circuitsService: CircuitsService) { }
+  constructor(
+    private elections: ElectionsComponent,
+    private circuitsService: CircuitsService,
+    private authenitactionService: AuthenticationService) { }
 
   ngOnInit() {
+    this.isLogged = this.authenitactionService.isLoggedIn;
+
     this.circuitsService.get_results(this.elections.viewID)
       .then((response: CircuitsResponse) => {
         this.response = response;

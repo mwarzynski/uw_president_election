@@ -3,7 +3,6 @@ import { ResultsService } from '../_services/index';
 import { ResultsResponse, Views } from '../_models/index';
 import { ElectionsComponent } from './elections.component';
 import { AppComponent } from '../app.component';
-import {viewToString} from '../_models/views';
 
 @Component({
   selector: 'results',
@@ -49,7 +48,7 @@ export class ResultsComponent implements OnInit {
       .then((response: ResultsResponse) => {
         this.saveResponse(response);
       }).catch((err: Error | any) => {
-      console.error('Getting result error:', err);
+        console.error('Getting result error:', err);
     });
   }
 }

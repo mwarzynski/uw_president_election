@@ -1,34 +1,63 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs';
+import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+
+import { Credentials } from '../_models/authentication';
 
 @Injectable()
 export class AuthenticationService {
+
+  public isLoggedIn: boolean = false;
+
+  public username: string;
   public token: string;
 
   constructor(private http: Http) {
     let user = JSON.parse(localStorage.getItem('user'));
-    this.token = user && user.token;
+    if (user) {
+      this.token = user.token;
+      this.username = user.username;
+      this.isLoggedIn = true;
+    }
   }
 
-  login(username: string, password: string): Observable<boolean> {
-    return this.http.post('http://localhost:8000/api/authenticate', JSON.stringify({ username: username, password: password }))
-      .map((response: Response) => {
-        let token = response.json() && response.json().token;
+  getUsername() {
+    console.log(this.username);
+  }
 
-        if (token) {
-          this.token = token;
-          localStorage.setItem('user', JSON.stringify({ username: username, token: token }));
-          return true;
-        } else {
-          return false;
-        }
-      });
+  login(username: string, password: string): Promise<boolean> {
+    let credentials: Credentials = { username: username, password: password };
+    return new Promise((resolve, reject) => {
+      this.http.post('http://localhost:8000/login/', credentials)
+        .toPromise()
+        .then((response: Response) => {
+          let user = response.json();
+
+          if (user) {
+            this.token = user.token;
+            this.username = user.username;
+            this.isLoggedIn = true;
+            localStorage.setItem('user', JSON.stringify({ username: this.username, token: this.token }));
+            resolve(true);
+          }
+
+          reject('unauthorized');
+        })
+        .catch((err: Error | any) => {
+          reject(err);
+        });
+    });
   }
 
   logout(): void {
+    this.username = null;
     this.token = null;
     localStorage.removeItem('user');
+  }
+
+  headers(): Headers {
+    let h: Headers = new Headers();
+    h.set('Authorization', 'Token ' + this.token);
+    return h;
   }
 }

@@ -10,6 +10,8 @@ import { AuthGuard } from './_guards/index';
 import { AuthenticationService } from './_services/index';
 import { LoginComponent } from './login/index';
 import { ElectionsModule } from './elections/index';
+import { SearchModule } from './search/search.module';
+import { EditModule } from './edit/edit.module';
 
 @NgModule({
   imports: [
@@ -18,6 +20,8 @@ import { ElectionsModule } from './elections/index';
     HttpModule,
     JsonpModule,
     ElectionsModule,
+    SearchModule,
+    EditModule,
     routing
   ],
   declarations: [

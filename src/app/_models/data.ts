@@ -41,3 +41,25 @@ export class CircuitsResponse {
   circuits: Circuit[];
 }
 
+export class SearchItem {
+  id: number;
+  name: string;
+  code: number;
+}
+
+export class SearchResponse {
+  data: SearchItem[];
+}
+
+export class CandidateResult {
+  votes: number;
+  candidate: string;
+  id: number;
+}
+
+export class EditCircuitResponse {
+  results: CandidateResult[] = [];
+  all_votes: number;
+  valid_votes: number;
+  name: string = '';
+}
