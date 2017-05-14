@@ -3,10 +3,10 @@
   <h2 *ngIf="response !== null">Wszystkich kart: {{response.all_votes}}.</h2>
   <br>
 
-  <form class="form-group" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+  <div *ngIf="submitted && !error" class="alert alert-success">Pomyślnie zapisano dane.</div>
 
-    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-    <div *ngIf="submitted && !error" class="alert alert-success">Pomyślnie zapisano dane.</div>
+  <form class="form-group" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
 
     <div class="form-group row" [ngClass]="{ 'has-error': f.submitted && error.length > 0 }" *ngFor="let result of response.results; let i = index;">
       <label for="result_{{ result.id }}" class="col-7 col-form-label">{{ result.candidate }}</label>

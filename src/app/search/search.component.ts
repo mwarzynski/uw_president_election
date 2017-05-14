@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { SearchService } from '../_services/index';
-import { SearchResponse } from '../_models/index';
+import { SearchResponse } from '../_models/index'
+
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'borough-search',
@@ -9,7 +11,7 @@ import { SearchResponse } from '../_models/index';
   providers: [ SearchService ],
 })
 
-export class SearchComponent {
+export class SearchComponent implements OnInit {
 
   error: string = '';
   loaded: boolean = false;
@@ -18,10 +20,17 @@ export class SearchComponent {
   model: any = {};
   response: SearchResponse = new SearchResponse;
 
-  constructor(private searchService: SearchService) { }
+  constructor(private searchService: SearchService, private appComponent: AppComponent) { }
 
   onSubmit() {
     this.loading = true;
+
+    if (this.model.query.length < 3) {
+      this.error = 'Fraza musi mieć przynajmniej trzy znaki.';
+      this.loading = false;
+      return;
+    }
+
     this.searchService.search(this.model.query)
       .then((response: SearchResponse) => {
         this.loading = false;
@@ -33,6 +42,10 @@ export class SearchComponent {
         this.loading = false;
         this.error = 'Nie udało się pobrać wyników.';
     });
+  }
+
+  ngOnInit() {
+    this.appComponent.title = 'Wyszukiwanie gmin.';
   }
 
 }

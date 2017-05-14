@@ -27,10 +27,27 @@ export class EditService {
             { headers: this.authenticationService.headers()})
         .toPromise()
         .then((response: Response) => {
-          resolve(response.status === 204);
+          resolve(true);
         })
-        .catch((err: Error | any) => {
-          reject(err);
+        .catch((response: Response | any) => {
+          if (!(response instanceof Response)) {
+            reject(response);
+            return;
+          }
+          switch (response.status) {
+            case 204:
+              resolve(true);
+              return;
+            case 400:
+              reject({ found: true, message: response.json()['message']});
+              return;
+            case 404:
+              reject({ found: false, message: response.json()['message']});
+              return;
+            case 500:
+              reject({ found: false, message: 'Ups... Coś poszło nie tak.'});
+              return;
+          }
         });
     });
   }

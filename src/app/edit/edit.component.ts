@@ -14,6 +14,9 @@ import { AppComponent } from '../app.component';
 export class EditComponent implements OnInit {
 
   id: number;
+
+  showForm: boolean = true;
+
   error: string = '';
   loading: boolean = false;
   submitted: boolean = false;
@@ -32,17 +35,15 @@ export class EditComponent implements OnInit {
 
     this.editService.circuit_save(this.id, this.response)
       .then((ok: boolean) => {
-        if (!ok) {
-          this.error = 'Wystąpił problem podczas zapisu danych.';
-        }
+        this.error = '';
         this.loading = false;
       })
       .catch((err: Error | any) => {
         if (err === 'unauthorized') {
           this.error = 'Niezalogowani użytkownicy nie mogą zmieniać danych.';
-          return;
+        } else {
+          this.error = err.message;
         }
-        this.error = 'Wystąpił problem podczas zapisu danych.';
         this.loading = false;
       });
   }
