@@ -14,6 +14,8 @@ export class CircuitComponent implements OnInit {
 
   isLogged: boolean = false;
 
+  error: string = '';
+
   response: CircuitsResponse =  JSON.parse(localStorage.getItem('circuits')) as CircuitsResponse;
 
   constructor(
@@ -33,8 +35,9 @@ export class CircuitComponent implements OnInit {
     this.circuitsService.get_results(this.elections.viewID)
       .then((response: CircuitsResponse) => {
         this.saveCircuit(response);
-      }).catch((err: Error | any) => {
-      console.log(err);
+        this.error = '';
+      }).catch((err: {message: string}) => {
+        this.error = err.message;
     });
   }
 }

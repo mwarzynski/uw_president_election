@@ -12,6 +12,8 @@ import { ElectionsComponent } from './elections.component';
 
 export class PagesComponent implements OnInit {
 
+  error: string = '';
+
   response: PagesResponse = JSON.parse(localStorage.getItem('pages')) as PagesResponse;
 
   constructor(private elections: ElectionsComponent, private pagesService: PagesService) { }
@@ -25,8 +27,9 @@ export class PagesComponent implements OnInit {
     this.pagesService.get_pages(this.elections.viewType, this.elections.viewID)
       .then((response: PagesResponse) => {
         this.savePages(response);
-      }).catch((err: Error | any) => {
-      console.log(err);
+        this.error = '';
+      }).catch((err: {message: string}) => {
+        this.error = err.message;
     });
   }
 }

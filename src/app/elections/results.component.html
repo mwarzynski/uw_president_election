@@ -1,5 +1,4 @@
-<section class="results">
-
+<section class="results" *ngIf="error.length === 0">
   <table>
     <thead>
     <tr>
@@ -24,5 +23,9 @@
     </tr>
     </tbody>
   </table>
-
 </section>
+
+<section *ngIf="error">
+  <div class="alert alert-danger">Wyniki - {{error}}.</div>
+</section>
+

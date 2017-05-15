@@ -23,9 +23,20 @@ export class CircuitsService {
         .toPromise()
         .then((response: Response) => {
           resolve(response.json() as CircuitsResponse);
-        }).catch((err: Error | any) => {
-        reject(err);
-      });
+        }).catch((response: Response) => {
+          switch (response.status) {
+            case 0: // timeout
+              reject({message: 'napotkano problemy podczas próby nawiązania połączenia'});
+              return;
+            case 404:
+              reject({message: 'nie znaleziono danych'});
+              return;
+            case 500:
+              reject({message: 'wystąpił niespodziewany problem'});
+              return;
+          }
+          reject(response);
+        });
     });
   }
 }

@@ -32,19 +32,28 @@ export class AuthenticationService {
         .toPromise()
         .then((response: Response) => {
           let user = response.json();
-
           if (user) {
             this.token = user.token;
-            this.username = user.username;
             this.isLoggedIn = true;
-            localStorage.setItem('user', JSON.stringify({ username: this.username, token: this.token }));
+            localStorage.setItem('user', JSON.stringify({ token: this.token }));
             resolve(true);
+          } else {
+            reject('Nieoczekiwana odpowiedź serwera.');
           }
-
-          reject('unauthorized');
         })
-        .catch((err: Error | any) => {
-          reject(err);
+        .catch((err: Response | string) => {
+          if (err instanceof Response) {
+            switch(err.status) {
+              case 400: // unable to login with given credentials
+                reject('Niepoprawne dane.');
+                return;
+              default:
+                reject('Nie można się zalogować. Spróbuj później.');
+                return;
+            }
+          } else {
+            reject(err);
+          }
         });
     });
   }

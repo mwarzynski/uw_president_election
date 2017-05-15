@@ -26,7 +26,7 @@ export class EditService {
             data,
             { headers: this.authenticationService.headers()})
         .toPromise()
-        .then((response: Response) => {
+        .then(() => {
           resolve(true);
         })
         .catch((response: Response | any) => {
@@ -35,17 +35,17 @@ export class EditService {
             return;
           }
           switch (response.status) {
-            case 204:
-              resolve(true);
+            case 0:
+              reject({ found: false, message: 'Brak odpowiedzi od serwera.'});
               return;
             case 400:
               reject({ found: true, message: response.json()['message']});
               return;
             case 404:
-              reject({ found: false, message: response.json()['message']});
+              reject({ found: false, message: 'Nie odnaleziono obwodu.'});
               return;
-            case 500:
-              reject({ found: false, message: 'Ups... Coś poszło nie tak.'});
+            default: // 500, etc.
+              reject({ found: false, message: 'Nieoczekiwany błąd.' });
               return;
           }
         });
@@ -55,7 +55,7 @@ export class EditService {
   circuit_get(circuit_id: number): Promise<EditCircuitResponse> {
     if (!this.authenticationService.isLoggedIn) {
       return new Promise((resolve, reject) => {
-        reject('unauthorized');
+        reject('Nie jesteś zalogowany.');
       });
     }
 
@@ -67,9 +67,23 @@ export class EditService {
         .then((response: Response) => {
           resolve(response.json() as EditCircuitResponse);
         })
-        .catch((err: Error | any) => {
-          reject(err);
-      });
+        .catch((response: Response | any) => {
+          if (!(response instanceof Response)) {
+            reject(response);
+            return;
+          }
+          switch (response.status) {
+            case 0:
+              reject('Brak odpowiedzi od serwera.');
+              return;
+            case 404:
+              reject('Nie odnaleziono obwodu.');
+              return;
+            default: // 500, etc.
+              reject('Nieoczekiwany błąd.');
+              return;
+          }
+        });
     });
   }
 

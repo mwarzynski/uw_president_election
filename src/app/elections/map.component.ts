@@ -69,9 +69,9 @@ export class MapComponent implements OnInit {
         if (JSON.stringify(last) !== JSON.stringify(response)) {
           done(response, router);
         }
-      }).catch((err: Error | any) => {
-      console.log(err);
-    });
+      }).catch((err: {message: string}) => {
+        console.error('Mapa: ' + err.message);
+      });
   }
 
   ngOnInit() {

@@ -27,12 +27,11 @@ export class LoginComponent implements OnInit {
   login() {
     this.loading = true;
     this.authenticationService.login(this.model.username, this.model.password)
-      .then((result: boolean) => {
+      .then(() => {
         this.router.navigate(['/']);
-        this.loading = false;
       })
-      .catch((err: Error | any) => {
-        this.error = 'Nazwa użytkownika lub hasło są nieprawidłowe.';
+      .catch((err: string) => {
+        this.error = err;
         this.loading = false;
       });
   }

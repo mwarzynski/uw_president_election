@@ -13,6 +13,8 @@ import { AppComponent } from '../app.component';
 
 export class ResultsComponent implements OnInit {
 
+  error: string = '';
+
   response: ResultsResponse = JSON.parse(localStorage.getItem('results')) as ResultsResponse;
 
   colorClass(i: number): string {
@@ -47,8 +49,9 @@ export class ResultsComponent implements OnInit {
     this.resultsService.get_results(this.elections.viewType, this.elections.viewID)
       .then((response: ResultsResponse) => {
         this.saveResponse(response);
-      }).catch((err: Error | any) => {
-        console.error('Getting result error:', err);
+        this.error = '';
+      }).catch((err: {message: string}) => {
+        this.error = err.message;
     });
   }
 }

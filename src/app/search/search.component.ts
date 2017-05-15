@@ -33,15 +33,14 @@ export class SearchComponent implements OnInit {
 
     this.searchService.search(this.model.query)
       .then((response: SearchResponse) => {
-        this.loading = false;
         this.error = '';
         this.loaded = true;
         this.response = response;
-      }).catch((err: Error | any) => {
-        console.error(err);
+      }).catch((err: string) => {
+        this.error = err;
+      }).then(() => {
         this.loading = false;
-        this.error = 'Nie udało się pobrać wyników.';
-    });
+      });
   }
 
   ngOnInit() {

@@ -19,9 +19,20 @@ export class SearchService {
         .toPromise()
         .then((response: Response) => {
           resolve(response.json() as SearchResponse);
-        }).catch((err: Error | any) => {
-        reject(err);
-      });
+        }).catch((response: Response | any) => {
+          if (response instanceof Response) {
+            switch (response.status) {
+              case 400:
+                reject('Niepoprawne zapytanie.');
+                return;
+              default:
+                reject('Nastąpił błąd podczas pobierania danych.');
+                return;
+            }
+          }
+
+          reject(response);
+        });
     });
   }
 }

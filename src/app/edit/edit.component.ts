@@ -15,13 +15,11 @@ export class EditComponent implements OnInit {
 
   id: number;
 
-  showForm: boolean = true;
-
   error: string = '';
   loading: boolean = false;
   submitted: boolean = false;
 
-  response: EditCircuitResponse = new EditCircuitResponse();
+  response: EditCircuitResponse = null;
 
   constructor(route: ActivatedRoute, private appComponent: AppComponent, private editService: EditService) {
     route.paramMap.subscribe(
@@ -30,12 +28,13 @@ export class EditComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
+    this.submitted = false;
     this.loading = true;
 
     this.editService.circuit_save(this.id, this.response)
       .then((ok: boolean) => {
         this.error = '';
+        this.submitted = true;
         this.loading = false;
       })
       .catch((err: Error | any) => {
@@ -53,12 +52,8 @@ export class EditComponent implements OnInit {
       .then((response: EditCircuitResponse) => {
         this.appComponent.title = response.name;
         this.response = response;
-      }).catch((err: Error | any) => {
-        if (err === 'unauthorized') {
-          this.error = 'Zaloguj się aby móc edytować obwody.';
-        } else {
-          console.error(err);
-        }
+      }).catch((err: string) => {
+        this.error = err;
     });
   }
 }

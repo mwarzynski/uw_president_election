@@ -1,4 +1,4 @@
-<section id="circuits">
+<section id="circuits" *ngIf="error.length === 0">
    <table>
        <thead>
          <tr>
@@ -16,4 +16,8 @@
          </tr>
      </tbody>
    </table>
+</section>
+
+<section *ngIf="error">
+  <div class="alert alert-danger">Pobieranie obwodów - {{error}}.</div>
 </section>
