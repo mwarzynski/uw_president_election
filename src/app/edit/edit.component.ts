@@ -37,11 +37,13 @@ export class EditComponent implements OnInit {
         this.submitted = true;
         this.loading = false;
       })
-      .catch((err: Error | any) => {
-        if (err === 'unauthorized') {
-          this.error = 'Niezalogowani użytkownicy nie mogą zmieniać danych.';
+      .catch((err: string) => {
+        if (err === 'Cannot set negative votes.') {
+          this.error = 'Kandydat nie może otrzymać ujemnej liczby głosów.';
+        } else if (err === 'Number of valid votes is higher than all votes.') {
+          this.error = 'Liczba ważnych kart nie może być wyższa niż liczba wszystkich kart.';
         } else {
-          this.error = err.message;
+          this.error = err;
         }
         this.loading = false;
       });

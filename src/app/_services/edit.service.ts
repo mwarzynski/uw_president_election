@@ -16,7 +16,7 @@ export class EditService {
   circuit_save(circuit_id: number, data: EditCircuitResponse): Promise<boolean> {
     if (!this.authenticationService.isLoggedIn) {
       return new Promise((resolve, reject) => {
-        reject('unauthorized');
+        reject('Nie jesteś zalogowany.');
       });
     }
 
@@ -36,16 +36,16 @@ export class EditService {
           }
           switch (response.status) {
             case 0:
-              reject({ found: false, message: 'Brak odpowiedzi od serwera.'});
+              reject('Brak odpowiedzi od serwera.');
               return;
             case 400:
-              reject({ found: true, message: response.json()['message']});
+              reject(response.json()['message']);
               return;
             case 404:
-              reject({ found: false, message: 'Nie odnaleziono obwodu.'});
+              reject('Nie odnaleziono obwodu.');
               return;
             default: // 500, etc.
-              reject({ found: false, message: 'Nieoczekiwany błąd.' });
+              reject('Nieoczekiwany błąd.');
               return;
           }
         });
