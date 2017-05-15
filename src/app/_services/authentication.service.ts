@@ -43,7 +43,7 @@ export class AuthenticationService {
         })
         .catch((err: Response | string) => {
           if (err instanceof Response) {
-            switch(err.status) {
+            switch (err.status) {
               case 400: // unable to login with given credentials
                 reject('Niepoprawne dane.');
                 return;

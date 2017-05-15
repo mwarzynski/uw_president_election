@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { SearchService } from '../_services/index';
-import { SearchResponse } from '../_models/index'
+import { SearchResponse } from '../_models/index';
 
 import { AppComponent } from '../app.component';
 
