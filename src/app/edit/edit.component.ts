@@ -42,6 +42,8 @@ export class EditComponent implements OnInit {
           this.error = 'Kandydat nie może otrzymać ujemnej liczby głosów.';
         } else if (err === 'Number of valid votes is higher than all votes.') {
           this.error = 'Liczba ważnych kart nie może być wyższa niż liczba wszystkich kart.';
+        } else if (err === 'Number of votes is not integer.') {
+          this.error = 'Liczba głosów musi być liczbą całkowitą.';
         } else {
           this.error = err;
         }
