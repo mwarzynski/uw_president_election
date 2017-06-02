@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EditService } from '../_services/index';
 import { EditCircuitResponse } from '../_models/index';
 import { AppComponent } from '../app.component';
+import {CandidateResult} from '../_models/data';
 
 @Component({
   selector: 'edit',
@@ -27,7 +28,33 @@ export class EditComponent implements OnInit {
     );
   }
 
+  checkIfFormValid(): boolean {
+    let votes_sum = 0;
+    let result: CandidateResult;
+    for (result of this.response.results) {
+      if (result.votes < 0) {
+        this.error = 'Liczba głosów musi być dodatnia.';
+        return false;
+      } else if (!Number.isInteger(result.votes)) {
+        this.error = 'Liczba głosów musi być liczbą całkowitą.';
+        return false;
+      }
+      votes_sum += result.votes;
+    }
+
+    if (votes_sum > this.response.all_votes) {
+      this.error = 'Liczba ważnych kart nie może być większa niż liczba kart.';
+      return false;
+    }
+
+    return true;
+  }
+
   onSubmit() {
+    if (!this.checkIfFormValid()) {
+      return;
+    }
+
     this.submitted = false;
     this.loading = true;
 
