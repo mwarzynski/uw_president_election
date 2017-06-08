@@ -1,6 +1,6 @@
 <section class="results" *ngIf="error.length === 0">
   <ul>
-    <li *ngFor="let page of response.pages">
+    <li *ngFor="let page of response?.pages">
       <a [routerLink]="'/' + page.link" routerLinkActive="active">{{ page.name }}</a>
     </li>
   </ul>

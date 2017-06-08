@@ -4,11 +4,11 @@
          <tr>
            <th>Lp</th>
            <th>Nazwa</th>
-           <th *ngFor="let candidate of response.candidates">{{ candidate }}</th>
+           <th *ngFor="let candidate of response?.candidates">{{ candidate }}</th>
          </tr>
        </thead>
        <tbody>
-         <tr *ngFor="let circuit of response.circuits; let i = index">
+         <tr *ngFor="let circuit of response?.circuits; let i = index">
            <td>{{ i + 1 }}</td>
            <td *ngIf="isLogged"><a [routerLink]="'/circuit/' + circuit.id">{{ circuit.address }}</a></td>
            <td *ngIf="!isLogged">{{ circuit.address }}</td>
