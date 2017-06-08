@@ -27,14 +27,14 @@ exports.config = {
   framework: 'jasmine',
 
   // Spec patterns are relative to this config file
-  specs: ['**/*e2e-spec.js' ],
+  specs: ['tests/test.js' ],
 
 
   // For angular tests
   useAllAngular2AppRoots: true,
 
   // Base URL for application server
-  baseUrl: 'http://localhost:8080',
+  baseUrl: 'http://localhost:3000',
 
   // doesn't seem to work.
   // resultJsonOutputFile: "foo.json",
