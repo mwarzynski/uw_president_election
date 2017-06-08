@@ -16,7 +16,7 @@ export class CircuitComponent implements OnInit {
 
   error: string = '';
 
-  response: CircuitsResponse =  JSON.parse(localStorage.getItem('circuits')) as CircuitsResponse;
+  response: CircuitsResponse =  new CircuitsResponse();
 
   constructor(
     private elections: ElectionsComponent,
@@ -30,6 +30,7 @@ export class CircuitComponent implements OnInit {
 
 
   ngOnInit() {
+    this.response = JSON.parse(localStorage.getItem('circuits')) as CircuitsResponse;
     this.isLogged = this.authenitactionService.isLoggedIn;
 
     this.circuitsService.get_results(this.elections.viewID)

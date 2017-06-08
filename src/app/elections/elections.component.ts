@@ -12,7 +12,7 @@ import { Views, parseView } from '../_models/index';
   `,
 })
 
-export class ElectionsComponent implements OnInit {
+export class ElectionsComponent {
 
   viewType: Views;
   viewID: number;
@@ -28,9 +28,6 @@ export class ElectionsComponent implements OnInit {
     route.paramMap.subscribe(
       params => this.viewID = parseInt(params.get('id'), 10)
     );
-  }
-
-  ngOnInit() {
     this.showMap = this.viewType === Views.COUNTRY;
     this.showPages = this.viewType === Views.VOIVODESHIP || this.viewType === Views.PRECINCT;
     this.showCircuits = this.viewType === Views.BOROUGH;

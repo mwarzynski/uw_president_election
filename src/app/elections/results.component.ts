@@ -17,6 +17,7 @@ export class ResultsComponent implements OnInit {
 
   response: ResultsResponse = JSON.parse(localStorage.getItem('results')) as ResultsResponse;
 
+
   colorClass(i: number): string {
     if (i === 0) {
       return 'red';
